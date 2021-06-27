@@ -1,18 +1,14 @@
 package com.example.CheckInApi.controller;
 
 import com.example.CheckInApi.exception.ObjectNotFoundException;
-import com.example.CheckInApi.modal.Checkin;
 import com.example.CheckInApi.modal.Profile;
-import com.example.CheckInApi.modal.Sitener;
 import com.example.CheckInApi.repository.CheckinRepository;
 import com.example.CheckInApi.repository.SitenerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 import com.example.CheckInApi.repository.ProfileRepository;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.example.CheckInApi.utils.RespondUtil.ok;
 
@@ -26,42 +22,64 @@ public class ProfileController {
     @Autowired
     private CheckinRepository checkinRepository;
 
-    @PostMapping(path="/createProfile") // Map ONLY POST Requests
-    public Profile createProfile(@RequestBody Profile newProfile){
+    @PostMapping(path = "/createProfile") // Map ONLY POST Requests
+    public Profile createProfile(@RequestBody Profile newProfile) throws ObjectNotFoundException {
+        List usernames = profileRepository.findUsernames();
 
-        return profileRepository.save(newProfile);
+        if (!(usernames.contains(newProfile.getUsername()))) {
+            return profileRepository.save(newProfile);
+        } else {
+            throw new ObjectNotFoundException("Username already exists");
+        }
     }
 
-    @GetMapping(path="/getProfile")
+    @GetMapping(path = "/getProfile")
     public @ResponseBody
     List<Profile> getAllProfiles() {
         // This returns a JSON or XML with the users
         return profileRepository.findAll();
     }
 
-    @GetMapping(path="/getProfile/{id}")
-    public Profile getProfiles(@PathVariable int id) {
-        // This returns a JSON or XML with the users
-        return  profileRepository.findById(id).orElseThrow(()->new ObjectNotFoundException("Could not found id:"+id));
-    }
+
 
     @DeleteMapping(path = "/deleteProfile/{id}")
-    public Map<String, String> deleteBySitener(@PathVariable int id){
-        Profile profile = profileRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Could not found id:"+id));
+    public Map<String, String> deleteBySitener(@PathVariable int id) {
+        Profile profile = profileRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Could not found id:" + id));
         profileRepository.deleteById(id);
         return ok();
     }
 
-    @PutMapping(path="/updateProfile/{id}")
-    public Profile updateProfile(@RequestBody Profile newProfile,@PathVariable int id){
+    @PutMapping(path = "/updateProfile/{id}")
+    public Profile updateProfile(@RequestBody Profile newProfile, @PathVariable int id) {
         return profileRepository.findById(id).map(profile -> {
             profile.setUsername(newProfile.getUsername());
             profile.setPassword(newProfile.getPassword());
             profile.setRole(newProfile.getRole());
             return profileRepository.save(profile);
-            }).orElseGet(()->{
-                return profileRepository.save(newProfile);
+        }).orElseGet(() -> {
+            return profileRepository.save(newProfile);
         });
 
+    }
+
+    @GetMapping(path = "/signIn/username={username}&password={password}") // Map ONLY POST Requests
+    public boolean signIn(@PathVariable String username, @PathVariable String password) throws ObjectNotFoundException {
+        return !(profileRepository.checkUsernameAndPass(username, password).isEmpty());
+    }
+
+    @PutMapping(path = "/changePassword/{id}")
+    public Optional<Profile> updatePassword(@RequestBody Profile newProfile, @PathVariable int id) {
+        if(profileRepository.findPassById(id).equals(newProfile.getPassword())){
+            throw new ObjectNotFoundException("New password can not be the same with the old one");
+        }
+        else{
+            return profileRepository.findById(id).map(profile ->
+            {
+
+                profile.setPassword(newProfile.getPassword());
+
+                return profileRepository.save(profile);
+            });
+        }
     }
 }

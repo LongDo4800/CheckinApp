@@ -63,7 +63,7 @@ public class SitenerController {
             sitener.setBirthday(newSitener.getBirthday());
             sitener.setTeam(newSitener.getTeam());
             sitener.setAvatar(newSitener.getAvatar());
-            sitener.setProfile(newSitener.getProfile());
+            
             return sitenerRepository.save(sitener);
         }).orElseGet(() -> {
             return sitenerRepository.save(newSitener);
