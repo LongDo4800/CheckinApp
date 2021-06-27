@@ -1,6 +1,7 @@
 package com.example.CheckInApi.repository;
 
 import com.example.CheckInApi.modal.Checkin;
+import com.example.CheckInApi.modal.Profile;
 import com.example.CheckInApi.modal.Sitener;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
