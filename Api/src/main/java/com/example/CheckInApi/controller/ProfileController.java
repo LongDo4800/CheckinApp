@@ -22,7 +22,7 @@ public class ProfileController {
     @Autowired
     private CheckinRepository checkinRepository;
 
-    @PostMapping(path = "/createProfile") // Map ONLY POST Requests
+    @PostMapping(path = "/signUp") // Map ONLY POST Requests
     public Profile createProfile(@RequestBody Profile newProfile) throws ObjectNotFoundException {
         List usernames = profileRepository.findUsernames();
 
@@ -33,7 +33,7 @@ public class ProfileController {
         }
     }
 
-    @GetMapping(path = "/getProfile")
+    @PostMapping(path = "/signIn")
     public @ResponseBody
     List<Profile> getAllProfiles() {
         // This returns a JSON or XML with the users
@@ -42,27 +42,16 @@ public class ProfileController {
 
 
 
-    @DeleteMapping(path = "/deleteProfile/{id}")
+    
     public Map<String, String> deleteBySitener(@PathVariable int id) {
         Profile profile = profileRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Could not found id:" + id));
         profileRepository.deleteById(id);
         return ok();
     }
 
-    @PutMapping(path = "/updateProfile/{id}")
-    public Profile updateProfile(@RequestBody Profile newProfile, @PathVariable int id) {
-        return profileRepository.findById(id).map(profile -> {
-            profile.setUsername(newProfile.getUsername());
-            profile.setPassword(newProfile.getPassword());
-            profile.setRole(newProfile.getRole());
-            return profileRepository.save(profile);
-        }).orElseGet(() -> {
-            return profileRepository.save(newProfile);
-        });
 
-    }
 
-    @GetMapping(path = "/signIn/username={username}&password={password}") // Map ONLY POST Requests
+    @PostMapping(path = "/signIn/username={username}&password={password}") // Map ONLY POST Requests
     public boolean signIn(@PathVariable String username, @PathVariable String password) throws ObjectNotFoundException {
         return !(profileRepository.checkUsernameAndPass(username, password).isEmpty());
     }

@@ -29,7 +29,7 @@ public class TimekeepingController {
     @Autowired
     private ProfileRepository profileRepository;
 
-    @GetMapping(path = "/createTimeK")
+    @PostMapping(path = "/createTimeK")
     public Timekeeping createTimeK(@RequestBody Timekeeping newTimeK) {
 
         return timeKeepingRepository.save(newTimeK);
