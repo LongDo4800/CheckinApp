@@ -4,6 +4,7 @@ package com.example.CheckInApi.controller;
 import com.example.CheckInApi.exception.ObjectNotFoundException;
 import com.example.CheckInApi.modal.Sitener;
 import com.example.CheckInApi.repository.CheckinRepository;
+import com.example.CheckInApi.repository.ProfileRepository;
 import com.example.CheckInApi.repository.SitenerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,8 @@ public class SitenerController {
 
         @Autowired
     private CheckinRepository checkinRepository;
-
+    @Autowired
+    private ProfileRepository profileRepository;
     @PostMapping(path = "/createSitener") // Map ONLY POST Requests
     public Sitener createSitener(@RequestBody Sitener newSitener) {
 
@@ -46,8 +48,12 @@ public class SitenerController {
         //checkin.setTimekeepingID(null);
 //        checkinRepository.delete(checkin);
         Sitener sitener = sitenerRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Could not found id:"+id));
+
+
         checkinRepository.deleteBySitenerId(id);
+
         sitenerRepository.delete(sitener);
+        profileRepository.deleteById(sitener.getProfile().getId());
         return ok();
     }
     @PutMapping(path = "/updateSitener/{id}")

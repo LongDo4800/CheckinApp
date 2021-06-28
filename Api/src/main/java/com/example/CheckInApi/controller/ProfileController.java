@@ -1,6 +1,7 @@
 package com.example.CheckInApi.controller;
 
 import com.example.CheckInApi.exception.ObjectNotFoundException;
+import com.example.CheckInApi.modal.Checkin;
 import com.example.CheckInApi.modal.Profile;
 import com.example.CheckInApi.modal.Sitener;
 import com.example.CheckInApi.repository.CheckinRepository;
@@ -44,6 +45,12 @@ public class ProfileController {
         return  profileRepository.findById(id).orElseThrow(()->new ObjectNotFoundException("Could not found id:"+id));
     }
 
+    @DeleteMapping(path = "/deleteProfile/{id}")
+    public Map<String, String> deleteBySitener(@PathVariable int id){
+        Profile profile = profileRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Could not found id:"+id));
+        profileRepository.deleteById(id);
+        return ok();
+    }
 
     @PutMapping(path="/updateProfile/{id}")
     public Profile updateProfile(@RequestBody Profile newProfile,@PathVariable int id){
