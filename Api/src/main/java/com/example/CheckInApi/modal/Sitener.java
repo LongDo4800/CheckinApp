@@ -56,6 +56,15 @@ public class Sitener implements Serializable {
     public Sitener() {
     }
 
+    public Sitener(Integer id, String name, Date birthday, String team, String avatar){
+        this.id = id;
+        this.name = name;
+        this.birthday = birthday;
+        this.team = team;
+        this.avatar = avatar;
+        this.profile=null;
+    }
+
     public Sitener(Integer id) {
         this.id = id;
     }
