@@ -2,6 +2,7 @@ package com.example.CheckInApi.controller;
 
 import com.example.CheckInApi.exception.ObjectNotFoundException;
 import com.example.CheckInApi.modal.Profile;
+import com.example.CheckInApi.modal.Sitener;
 import com.example.CheckInApi.repository.CheckinRepository;
 import com.example.CheckInApi.repository.SitenerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,14 +53,21 @@ public class ProfileController {
 
 
     @PostMapping(path = "/signIn/username={username}&password={password}") // Map ONLY POST Requests
-    public boolean signIn(@PathVariable String username, @PathVariable String password) throws ObjectNotFoundException {
-        return !(profileRepository.checkUsernameAndPass(username, password).isEmpty());
+    public Sitener signIn(@PathVariable String username, @PathVariable String password) throws ObjectNotFoundException {
+        ArrayList profile = profileRepository.getProfileByUserNamePassword(username, password);
+        if(!(profile.isEmpty())){
+            Sitener sitener = sitenerRepository.findSitenerByProfileId((Integer) profile.get(0));
+            return new Sitener(sitener.getId(),sitener.getName(),sitener.getBirthday(),sitener.getTeam(),sitener.getAvatar());
+        }
+        else {
+            throw new ObjectNotFoundException("error");
+        }
     }
 
-    @PutMapping(path = "/changePassword/{id}")
-    public Optional<Profile> updatePassword(@RequestBody Profile newProfile, @PathVariable int id) {
-        if(profileRepository.findPassById(id).equals(newProfile.getPassword())){
-            throw new ObjectNotFoundException("New password can not be the same with the old one");
+    @PutMapping(path = "/changePassword/id={id}&password={password}")
+    public Optional<Profile> updatePassword(@RequestBody Profile newProfile, @PathVariable int id,@PathVariable String password) {
+        if(!(profileRepository.findPassById(id).equals(password))){
+            throw new ObjectNotFoundException("error");
         }
         else{
             return profileRepository.findById(id).map(profile ->
