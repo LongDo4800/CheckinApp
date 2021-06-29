@@ -5,8 +5,13 @@
  */
 package com.example.CheckInApi.modal;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,23 +19,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Admin
  */
 @Entity
-@Table(name = "profile")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Profile.findAll", query = "SELECT p FROM Profile p")
-    , @NamedQuery(name = "Profile.findById", query = "SELECT p FROM Profile p WHERE p.id = :id")
-    , @NamedQuery(name = "Profile.findByUsername", query = "SELECT p FROM Profile p WHERE p.username = :username")
-    , @NamedQuery(name = "Profile.findByPassword", query = "SELECT p FROM Profile p WHERE p.password = :password")
-    , @NamedQuery(name = "Profile.findByRole", query = "SELECT p FROM Profile p WHERE p.role = :role")})
-public class Profile implements Serializable {
+@Table(name = "timekeeping")
+
+public class Timekeeping implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,28 +42,21 @@ public class Profile implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "username")
-    private String username;
-    @Basic(optional = false)
-    @Column(name = "password")
-    private String password;
-    @Basic(optional = false)
-    @Column(name = "role")
-    private String role;
+    @Column(name = "checkinDate")
+    @Temporal(TemporalType.DATE)
+    private Date checkinDate;
 
 
-    public Profile() {
+    public Timekeeping() {
     }
 
-    public Profile(Integer id) {
+    public Timekeeping(Integer id) {
         this.id = id;
     }
 
-    public Profile(Integer id, String username, String password, String role) {
+    public Timekeeping(Integer id, Date checkinDate) {
         this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
+        this.checkinDate = checkinDate;
     }
 
     public Integer getId() {
@@ -71,29 +67,14 @@ public class Profile implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public Date getCheckinDate() {
+        return checkinDate;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setCheckinDate(Date checkinDate) {
+        this.checkinDate = checkinDate;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
 
     @Override
@@ -106,10 +87,10 @@ public class Profile implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Profile)) {
+        if (!(object instanceof Timekeeping)) {
             return false;
         }
-        Profile other = (Profile) object;
+        Timekeeping other = (Timekeeping) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,7 +99,8 @@ public class Profile implements Serializable {
 
     @Override
     public String toString() {
-        return "db.Profile[ id=" + id + " ]";
+
+        return "db.Timekeeping[ id=" + id + " ]";
     }
     
 }
