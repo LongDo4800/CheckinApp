@@ -14,6 +14,7 @@ import java.util.Map;
 
 import static com.example.CheckInApi.utils.RespondUtil.ok;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class CheckinController {
     @Autowired

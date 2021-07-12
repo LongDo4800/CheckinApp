@@ -1,18 +1,28 @@
 package com.example.CheckInApi.controller;
 
 import com.example.CheckInApi.exception.ObjectNotFoundException;
+import com.example.CheckInApi.jwt.JwtTokenUtil;
 import com.example.CheckInApi.modal.Profile;
 import com.example.CheckInApi.modal.Sitener;
 import com.example.CheckInApi.repository.CheckinRepository;
 import com.example.CheckInApi.repository.SitenerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import com.example.CheckInApi.repository.ProfileRepository;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 import static com.example.CheckInApi.utils.RespondUtil.ok;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController // This means that this class is a Controller
 public class ProfileController {
     @Autowired // This means to get the bean called profileRepository
@@ -22,27 +32,23 @@ public class ProfileController {
     private SitenerRepository sitenerRepository;
     @Autowired
     private CheckinRepository checkinRepository;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping(path = "/signUp") // Map ONLY POST Requests
-    public Profile createProfile(@RequestBody Profile newProfile) throws ObjectNotFoundException {
+    public Integer createProfile(@RequestBody Profile newProfile) throws ObjectNotFoundException {
         List usernames = profileRepository.findUsernames();
 
         if (!(usernames.contains(newProfile.getUsername()))) {
-            return profileRepository.save(newProfile);
+            Profile profile = profileRepository.save(newProfile);
+
+            return profile.getId();
         } else {
             throw new ObjectNotFoundException("Username already exists");
         }
     }
-
-    @PostMapping(path = "/signIn")
-    public @ResponseBody
-    List<Profile> getAllProfiles() {
-        // This returns a JSON or XML with the users
-        return profileRepository.findAll();
-    }
-
-
-
     
     public Map<String, String> deleteBySitener(@PathVariable int id) {
         Profile profile = profileRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Could not found id:" + id));
@@ -50,14 +56,24 @@ public class ProfileController {
         return ok();
     }
 
+    @PostMapping(path = "/signIn") // Map ONLY POST Requests
+    public Map<String, Object> signIn(@RequestBody Profile rqProfile) throws Exception {
+        String username = rqProfile.getUsername();
+        String password = rqProfile.getPassword();
 
-
-    @PostMapping(path = "/signIn/username={username}&password={password}") // Map ONLY POST Requests
-    public Sitener signIn(@PathVariable String username, @PathVariable String password) throws ObjectNotFoundException {
         ArrayList profile = profileRepository.getProfileByUserNamePassword(username, password);
         if(!(profile.isEmpty())){
             Sitener sitener = sitenerRepository.findSitenerByProfileId((Integer) profile.get(0));
-            return new Sitener(sitener.getId(),sitener.getName(),sitener.getBirthday(),sitener.getTeam(),sitener.getAvatar());
+
+            Profile userProfile = profileRepository.findUsername(username);
+            final String token = jwtTokenUtil.generateToken(userProfile);
+            if (sitener.getId() == null) {
+                throw new ObjectNotFoundException("Chưa có thông tin người dùng");
+            }
+            Sitener sitenerRs = new Sitener(sitener.getId(),sitener.getName(),sitener.getBirthday(),sitener.getTeam(),sitener.getAvatar());
+            Map<String, Object> map = parameters(sitenerRs);
+            map.put("token", token);
+            return map;
         }
         else {
             throw new ObjectNotFoundException("error");
@@ -78,5 +94,14 @@ public class ProfileController {
                 return profileRepository.save(profile);
             });
         }
+    }
+
+    public static Map<String, Object> parameters(Object obj) {
+        Map<String, Object> map = new HashMap<>();
+        for (Field field : obj.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            try { map.put(field.getName(), field.get(obj)); } catch (Exception e) { }
+        }
+        return map;
     }
 }
