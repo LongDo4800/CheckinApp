@@ -14,6 +14,9 @@ public interface ProfileRepository extends JpaRepository<Profile, Integer> {
     @Query("select a.username from Profile a")
     ArrayList findUsernames();
 
+    @Query("select a from Profile a where a.username =:username")
+    Profile findUsername(String username);
+
     @Query("select a.id from Profile a where a.username =:username and a.password =:password")
     ArrayList getProfileByUserNamePassword(String username, String password);
 

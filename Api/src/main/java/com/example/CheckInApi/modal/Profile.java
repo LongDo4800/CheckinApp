@@ -63,6 +63,11 @@ public class Profile implements Serializable {
         this.role = role;
     }
 
+    public Profile(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public Integer getId() {
         return id;
     }
