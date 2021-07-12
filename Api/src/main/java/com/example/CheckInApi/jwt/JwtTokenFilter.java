@@ -4,6 +4,8 @@ import com.example.CheckInApi.modal.Profile;
 import com.example.CheckInApi.repository.ProfileRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -14,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -53,9 +56,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         Profile profile = profileRepository
                 .findUsername(jwtTokenUtil.getUsernameFromToken(token));
 
+        List<GrantedAuthority> authorities
+                = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("USER"));
+
         UsernamePasswordAuthenticationToken
                 authentication = new UsernamePasswordAuthenticationToken(
-                profile, null
+                profile, null,
+                authorities
         );
 
         authentication.setDetails(
@@ -64,6 +72,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(request, response);
+        System.out.println(profile);
+        return;
     }
 
 }
