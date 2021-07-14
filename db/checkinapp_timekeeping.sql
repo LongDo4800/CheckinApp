@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS `timekeeping`;
 CREATE TABLE `timekeeping` (
   `id` int NOT NULL AUTO_INCREMENT,
   `checkin_date` date NOT NULL,
+  `secret` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `checkinDate` (`checkin_date`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -36,7 +37,7 @@ CREATE TABLE `timekeeping` (
 
 LOCK TABLES `timekeeping` WRITE;
 /*!40000 ALTER TABLE `timekeeping` DISABLE KEYS */;
-INSERT INTO `timekeeping` VALUES (1,'1991-06-27');
+INSERT INTO `timekeeping` VALUES (1,'1991-06-27','');
 /*!40000 ALTER TABLE `timekeeping` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-28 19:56:00
+-- Dump completed on 2021-07-14 20:25:42

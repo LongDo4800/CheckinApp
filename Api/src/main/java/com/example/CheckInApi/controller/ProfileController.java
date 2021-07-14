@@ -40,17 +40,12 @@ public class ProfileController {
         // This returns a JSON or XML with the users
         return profileRepository.findAll();
     }
-
-
-
     
     public Map<String, String> deleteBySitener(@PathVariable int id) {
         Profile profile = profileRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Could not found id:" + id));
         profileRepository.deleteById(id);
         return ok();
     }
-
-
 
     @PostMapping(path = "/signIn/username={username}&password={password}") // Map ONLY POST Requests
     public Sitener signIn(@PathVariable String username, @PathVariable String password) throws ObjectNotFoundException {
