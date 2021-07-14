@@ -45,7 +45,8 @@ public class Timekeeping implements Serializable {
     @Column(name = "checkinDate")
     @Temporal(TemporalType.DATE)
     private Date checkinDate;
-
+    @Column(name = "secret")
+    private String secret;
 
     public Timekeeping() {
     }
@@ -75,6 +76,13 @@ public class Timekeeping implements Serializable {
         this.checkinDate = checkinDate;
     }
 
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
 
 
     @Override

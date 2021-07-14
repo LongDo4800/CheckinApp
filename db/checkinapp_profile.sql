@@ -38,7 +38,7 @@ CREATE TABLE `profile` (
 
 LOCK TABLES `profile` WRITE;
 /*!40000 ALTER TABLE `profile` DISABLE KEYS */;
-INSERT INTO `profile` VALUES (1,'abc','abc','abc'),(3,'tu','caidit','no le'),(4,'nigga','caiditd','no le'),(6,'abc1','abc2','abc3'),(7,'abc2','abc2','abc3'),(9,'nigger','caiditd','no le'),(10,'niggeru','caiditd2','no le'),(12,'niggarong','abc2','abc3'),(13,'niga','abc','no le'),(15,'niggarongSlayer','123qwer','no le');
+INSERT INTO `profile` VALUES (1,'abc','abc','abc'),(3,'tu','caidit','no le'),(4,'nigga','caiditd','no le'),(6,'abc1','abc2','abc3'),(7,'abc2','abc2','abc3'),(9,'nigger','caiditd','no le'),(10,'niggeru','caiditd2','no le'),(12,'niggarong','abc2','abc3'),(13,'niga','abcdd2','no le'),(15,'niggarongSlayer','123qwer','no le');
 /*!40000 ALTER TABLE `profile` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-28 19:56:00
+-- Dump completed on 2021-07-14 20:25:42
