@@ -11,8 +11,10 @@ import com.example.CheckInApi.repository.TimeKeepingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.example.CheckInApi.utils.RespondUtil.ok;
 
@@ -31,48 +33,55 @@ public class TimekeepingController {
     private ProfileRepository profileRepository;
 
     @PostMapping(path = "/createTimeK")
-    public Timekeeping createTimeK(@RequestBody Timekeeping newTimeK) {
+    public Timekeeping createTimeK(@RequestBody Timekeeping body) throws Exception {
+        try {
+            Timekeeping newTimeK = new Timekeeping();
+            newTimeK.setCheckinDate(body.getCheckinDate());
+            newTimeK.setSecret(UUID.randomUUID().toString());
 
-        return timeKeepingRepository.save(newTimeK);
-    }
-
-    @GetMapping(path="/getTimeK")
-    public @ResponseBody
-    List<Timekeeping> getAllCheckin() {
-
-        return timeKeepingRepository.findAll();
-    }
-
-    @GetMapping(path = "/getTimeK/{id}")
-    public Timekeeping getTimeK(@PathVariable int id) {
-        // This returns a JSON or XML with the users
-        return timeKeepingRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Could not found id:"+id));
-    }
-
-    @DeleteMapping(path="/deleteTimeK/{id}")
-    public Map<String,String> deleteTimeKById(@PathVariable int id){
-
-
-        Timekeeping timekeeping = timeKeepingRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Could not found id:"+id));
-
-
-        checkinRepository.deleteByTimekeepingId(id);
-
-        timeKeepingRepository.delete(timekeeping);
-
-        return ok();
-    }
-
-    @PutMapping(path="/updateTimeK/{id}")
-    public Timekeeping updateTimeK(@RequestBody Timekeeping newTimeK, @PathVariable int id) {
-        Timekeeping time_keeping = timeKeepingRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Could not found id:"+id));
-
-        return timeKeepingRepository.findById(id).map(timekeeping -> {
-            timekeeping.setCheckinDate(newTimeK.getCheckinDate());
-            return timeKeepingRepository.save(timekeeping);
-        }).orElseGet(() -> {
             return timeKeepingRepository.save(newTimeK);
-        });
-
+        } catch (Exception e) {
+            throw new Exception("Error Creating Time Keeping");
+        }
     }
+
+//    @GetMapping(path="/getTimeK")
+//    public @ResponseBody
+//    List<Timekeeping> getAllCheckin() {
+//
+//        return timeKeepingRepository.findAll();
+//    }
+
+//    @GetMapping(path = "/getTimeK/{id}")
+//    public Timekeeping getTimeK(@PathVariable int id) {
+//        // This returns a JSON or XML with the users
+//        return timeKeepingRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Could not found id:"+id));
+//    }
+
+//    @DeleteMapping(path="/deleteTimeK/{id}")
+//    public Map<String,String> deleteTimeKById(@PathVariable int id){
+//
+//
+//        Timekeeping timekeeping = timeKeepingRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Could not found id:"+id));
+//
+//
+//        checkinRepository.deleteByTimekeepingId(id);
+//
+//        timeKeepingRepository.delete(timekeeping);
+//
+//        return ok();
+//    }
+
+//    @PutMapping(path="/updateTimeK/{id}")
+//    public Timekeeping updateTimeK(@RequestBody Timekeeping newTimeK, @PathVariable int id) {
+//        Timekeeping time_keeping = timeKeepingRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Could not found id:"+id));
+//
+//        return timeKeepingRepository.findById(id).map(timekeeping -> {
+//            timekeeping.setCheckinDate(newTimeK.getCheckinDate());
+//            return timeKeepingRepository.save(timekeeping);
+//        }).orElseGet(() -> {
+//            return timeKeepingRepository.save(newTimeK);
+//        });
+//
+//    }
 }
