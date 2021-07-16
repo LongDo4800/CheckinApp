@@ -67,7 +67,7 @@ public class ProfileController {
 
             Profile userProfile = profileRepository.findUsername(username);
             final String token = jwtTokenUtil.generateToken(userProfile);
-            if (sitener.getId() == null) {
+            if (sitener == null) {
                 throw new ObjectNotFoundException("Chưa có thông tin người dùng");
             }
             Sitener sitenerRs = new Sitener(sitener.getId(),sitener.getName(),sitener.getBirthday(),sitener.getTeam(),sitener.getAvatar());
