@@ -2,6 +2,8 @@ package com.example.CheckInApi.controller;
 
 
 import com.example.CheckInApi.exception.ObjectNotFoundException;
+import com.example.CheckInApi.modal.Checkin;
+import com.example.CheckInApi.modal.DateModal;
 import com.example.CheckInApi.modal.Sitener;
 import com.example.CheckInApi.modal.Timekeeping;
 import com.example.CheckInApi.repository.CheckinRepository;
@@ -11,8 +13,14 @@ import com.example.CheckInApi.repository.TimeKeepingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.example.CheckInApi.utils.RespondUtil.ok;
 
@@ -74,5 +82,17 @@ public class TimekeepingController {
             return timeKeepingRepository.save(newTimeK);
         });
 
+    }
+
+    @GetMapping(path="/getCheckinFromDate")
+    public List<Checkin> getCheckinFromDate(@RequestBody DateModal date){
+
+        List<Timekeeping> timekeepings = timeKeepingRepository.findAll();
+        List<Timekeeping> filteredTimeK = timekeepings.stream().filter(x->(x.getCheckinDate()).before(date.endDate)&&(x.getCheckinDate()).after(date.beginDate)).collect(Collectors.toList());
+        List<Checkin> checkins = new ArrayList<>();
+        for (int i=0;i<filteredTimeK.size();i++){
+            checkins.addAll(checkinRepository.findAllByTimekeepingID(filteredTimeK.get(i).getId())) ;
+        }
+        return checkins;
     }
 }

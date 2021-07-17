@@ -2,13 +2,16 @@ package com.example.CheckInApi.controller;
 import com.example.CheckInApi.exception.ObjectNotFoundException;
 import com.example.CheckInApi.modal.Checkin;
 import com.example.CheckInApi.modal.Sitener;
+import com.example.CheckInApi.modal.Timekeeping;
 import com.example.CheckInApi.repository.CheckinRepository;
+import com.example.CheckInApi.repository.TimeKeepingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +22,7 @@ import static com.example.CheckInApi.utils.RespondUtil.ok;
 public class CheckinController {
     @Autowired
     private CheckinRepository repository;
-    
+
     @PostMapping(path = "/createCheckin") // Map ONLY POST Requests
     public Checkin createCheckin(@RequestBody Checkin newCheckin) {
 
@@ -59,4 +62,6 @@ public class CheckinController {
         });
 
     }
+
+
 }

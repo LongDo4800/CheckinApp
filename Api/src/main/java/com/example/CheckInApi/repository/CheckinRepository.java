@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 // CRUD refers Create, Read, Update, Delete
 
@@ -26,5 +28,7 @@ public interface CheckinRepository extends JpaRepository<Checkin, Integer> {
     @Query("select a from Checkin a where a.timekeeping.id=?1")
     Checkin findByTimekeepingID(int timekeepingID);
 
+    @Query("select a from Checkin a where a.timekeeping.id=?1")
+    List<Checkin> findAllByTimekeepingID(int timekeepingID);
 
 }
