@@ -375,7 +375,7 @@ class HomeScreen extends Component {
     let scheduleWork;
     switch (item.userValue) {
       case "Cả ngày":
-        scheduleWork = 'Full time';
+        scheduleWork = 'All day';
         break;
       case "Nghỉ":
         scheduleWork = 'Off';
@@ -387,14 +387,14 @@ class HomeScreen extends Component {
         scheduleWork = 'Afternoon';
         break;
       case "Công tác":
-        scheduleWork = 'On-site';
+        scheduleWork = '';
         break;
       case "CT Sáng":
         scheduleWork = 'On-site morning';
         break;
       case "CT Chiều":
         scheduleWork = 'On-site afternoon';
-        break;
+        break;tap
       case "Sáng & CT":
         scheduleWork = 'Morning & On-site';
         break;
@@ -402,7 +402,7 @@ class HomeScreen extends Component {
         scheduleWork = 'Afternoon & On-site';
         break;
       case "WFH":
-        scheduleWork = 'Work from home';
+        scheduleWork = 'All day';
         break;
       case "WFH Sáng":
         scheduleWork = 'WFH morning';
@@ -542,7 +542,7 @@ class HomeScreen extends Component {
     return (
       <View style={styles.wrapContent}>
         <TouchableOpacity style={styles.wrapTapCheckin} onPress={() => { this.checkin() }}>
-          <Text style={styles.textTap}>Tap to mark as being at Siten's office</Text>
+          <Text style={styles.textTap}>Tap to mark as being at Aptech's school</Text>
           <Icon name="gesture-double-tap" type='MaterialCommunityIcons' style={styles.iconTap} />
         </TouchableOpacity>
       </View>

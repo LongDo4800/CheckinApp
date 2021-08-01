@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     },
     textTap: {
         color: Colors.mainColor,
-        fontSize: RFPercentage(2.25),
+        fontSize: RFPercentage(2),
         fontWeight: 'bold'
     },
     iconTap: {

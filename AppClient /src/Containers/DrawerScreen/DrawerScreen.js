@@ -30,7 +30,7 @@ const DrawerScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [nameUser, setName] = useState('');
   const [positionUser, setPosition] = useState('');
-  const imageDefault = require('../../Assets/Images/not_avatar.jpg');
+  const imageDefault = require('../../Assets/Images/avatar.png');
   const [token, setToken] = useState('');
   const [isOpenModalLogout, setModalOpen] = useState(false);
   let hasConnection = true;
@@ -105,7 +105,7 @@ const DrawerScreen = ({ navigation }) => {
         await AsyncStorage.setItem('urlAvatar', data.result[0].avatar);
         setName(data.result[0].name);
         console.log(data, 'hhhhhhhhhhhh');
-        setPosition(data.result[0].position);
+        setPosition('STUDENT | C18080000');
         setUrlAvatar(data.result[0].avatar);
         console.log(urlAvatar, nameUser, positionUser, 'infor user');
       })
@@ -114,7 +114,7 @@ const DrawerScreen = ({ navigation }) => {
         });
     } else {
       setName(name);
-      setPosition(position);
+      setPosition('STUDENT | C18080000');
       setUrlAvatar(url);
     }
     setLoading(false);
@@ -126,9 +126,10 @@ const DrawerScreen = ({ navigation }) => {
         {!loading ?
           <View style={styles.imageBackground}>
             <View>
-              <ImageBackground source={{
-                uri: mushroom.$file.linkBuilder.thumb.id(urlAvatar).square(512).build()
-              }} style={styles.image}
+              <ImageBackground source={imageDefault
+                // uri: mushroom.$file.linkBuilder.thumb.id(urlAvatar).square(512).build()
+                
+              } style={styles.image}
               >
                 <LinearGradient colors={['rgba(3, 173, 283 , .9)', 'rgba(4,76,135, .9)']} start={{ x: 0.5, y: 0 }} end={{ x: 0.5, y: 1 }}>
                   <View style={{ justifyContent: 'flex-start', padding: 10 }}>
@@ -155,14 +156,26 @@ const DrawerScreen = ({ navigation }) => {
                   <View style={styles.wrapIcon}>
                     <Icon name="contacts" type="AntDesign" style={styles.icon} />
                   </View>
-                  <Text style={styles.Text}>Siteners</Text>
+                  <Text style={styles.Text}>Students</Text>
                 </TouchableOpacity>
-                {/* <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('TimwookScreen', { token: token })}>
+                <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('TimwookScreen', { token: token })}>
                   <View style={styles.wrapIcon}>
-                    <Image source={Images.LogoTimwook} />
+                  <Icon name="align-justify" type="FontAwesome" style={styles.icon} />
                   </View>
-                  <Text style={styles.Text}>Timwook</Text>
-                </TouchableOpacity> */}
+                  <Text style={styles.Text}>Class Rules</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('Aptech', { token: token })}>
+                  <View style={styles.wrapIcon}>
+                    <Image style={{width : 35 , height : 35 , resizeMode:'center'}} source={Images.LogoTimwook} />
+                  </View>
+                  <Text style={styles.Text}>Aptech</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('SupportScreen', { token: token })}>
+                  <View style={styles.wrapIcon}>
+                  <Icon name="info" type="FontAwesome" style={styles.icon} />
+                  </View>
+                  <Text style={styles.Text}>Support</Text>
+                </TouchableOpacity>
               </View>
               <View style={{ marginTop: 5 }}>
                 {/* <TouchableOpacity style={styles.item}>

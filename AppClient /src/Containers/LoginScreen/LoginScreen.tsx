@@ -141,8 +141,9 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 
         <LinearGradient colors={['#0052a3', '#00adee']} start={{ x: 0.5, y: 1.2 }} end={{ x: 0.5, y: 0.208 }} style={{ flex: 1 }}>
-          <Image source={imageBrandName} style={{ width: 150, height: 100, top: 50, alignSelf: 'center', marginBottom: 30 }} />
-          <Image source={cloud} style={{ width: '100%', height: 500, position: 'absolute', top: Dimensions.get('window').width / 2 }} />
+          {/* <Image source={imageBrandName} style={{ width: 150, height: 100, top: 50, alignSelf: 'center', marginBottom: 30 }} />*/}
+          <Image source={cloud} style={{ width: '100%', height: 500, position: 'absolute', top: Dimensions.get('window').width / 2 }} /> 
+          <Text style={{ top: 50, alignSelf: 'center', marginBottom: 30, color: 'white', fontSize: 40,fontWeight:'bold' }}>Aptech Assitant</Text>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1, justifyContent: 'center' }}

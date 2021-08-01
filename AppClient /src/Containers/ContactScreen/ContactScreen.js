@@ -134,7 +134,7 @@ function ContactScreen({ navigation }) {
         }}
         onChangeSearch={(val) => onChangeSearch(val)}
         isSearch={isSearch}
-        title={numOfMember + ' Siteners'}
+        title={numOfMember + ' Students'}
         search={(e) => fn_search(e)}
         NoNavHeader
       />

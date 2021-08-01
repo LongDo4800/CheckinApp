@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  wrapImg: {
+    width: 35,
+    height: 35,
+  },
   Text: {
     color: Colors.mainColor,
     fontSize: RFValue(13),

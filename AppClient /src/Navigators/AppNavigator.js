@@ -8,6 +8,8 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import DrawerContent from "../Containers/DrawerScreen/DrawerScreen";
 import ContactScreen from "../Containers/ContactScreen/ContactScreen";
 import TimwookScreen from "../Containers/TimwookScreen/TimwookScreen";
+import SupportScreen from "../Containers/TimwookScreen/Support";
+import Aptech from "../Containers/TimwookScreen/Aptech";
 
 import ForgotPasswordScreen from "../Containers/ForgotPassword/ForgotPasswordScreen";
 import { Header } from "react-native/Libraries/NewAppScreen";
@@ -24,6 +26,8 @@ function DrawerHome() {
       <Drawer.Screen name="HomeScreen" component={HomeScreen} />
       <Drawer.Screen name="ContactsScreen" component={ContactScreen} options={{ header: null, headerLeft: null, gestureEnabled: false }} />
       <Drawer.Screen name="TimwookScreen" component={TimwookScreen} />
+      <Drawer.Screen name="SupportScreen" component={SupportScreen} />
+      <Drawer.Screen name="Aptech" component={Aptech} />
     </Drawer.Navigator>
   )
 }
