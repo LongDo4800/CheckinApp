@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "949718911596",
+    "project_id": "timwook",
+    "storage_bucket": "timwook.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949718911596:android:75cc187af00b1dfb066649",
+        "android_client_info": {
+          "package_name": "vn.siten.assistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "949718911596-tfalmafb86mtpt24g65a0paeva4fahlb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqGdVsKRFjfHyuK5hpMNQuns4bv8P2wa8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "949718911596-tfalmafb86mtpt24g65a0paeva4fahlb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "949718911596-1p55c4kaqofmjslaj9m4562lifeo2n7d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "vn.siten.assistant"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

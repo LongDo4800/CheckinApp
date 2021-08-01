@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="360" height="614" viewBox="0 0 360 614">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" y1="1.2" x2="0.5" y2="0.208" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#0052a3"/>
+      <stop offset="1" stop-color="#00adee"/>
+    </linearGradient>
+    <clipPath id="clip-Splash-screen">
+      <rect width="360" height="614"/>
+    </clipPath>
+  </defs>
+  <g id="Splash-screen" clip-path="url(#clip-Splash-screen)">
+    <rect width="360" height="614" fill="url(#linear-gradient)"/>
+  </g>
+</svg>
