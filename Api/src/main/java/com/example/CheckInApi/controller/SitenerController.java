@@ -62,7 +62,10 @@ public class SitenerController {
         return sitenerRepository.findById(id).map(sitener -> {
             sitener.setName(newSitener.getName());
             sitener.setBirthday(newSitener.getBirthday());
-            sitener.setTeam(newSitener.getTeam());
+            sitener.setClassID(newSitener.getClassID());
+            sitener.setEmail(newSitener.getEmail());
+            sitener.setAddress(newSitener.getAddress());
+            sitener.setPhone_no(newSitener.getPhone_no());
             sitener.setAvatar(newSitener.getAvatar());
             
             return sitenerRepository.save(sitener);

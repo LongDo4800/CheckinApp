@@ -42,8 +42,14 @@ public class Sitener implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date  birthday;
     @Basic(optional = false)
-    @Column(name = "team")
-    private String team;
+    @Column(name = "classID")
+    private String classID;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "phone_no")
+    private Integer phone_no;
     @Column(name = "avatar")
     private String avatar;
 
@@ -56,11 +62,14 @@ public class Sitener implements Serializable {
     public Sitener() {
     }
 
-    public Sitener(Integer id, String name, Date birthday, String team, String avatar){
+    public Sitener(Integer id, String name, Date birthday, String classID,String email,String address,Integer phone_no, String avatar){
         this.id = id;
         this.name = name;
         this.birthday = birthday;
-        this.team = team;
+        this.classID = classID;
+        this.email = email;
+        this.address = address;
+        this.phone_no = phone_no;
         this.avatar = avatar;
         this.profile=null;
     }
@@ -69,11 +78,11 @@ public class Sitener implements Serializable {
         this.id = id;
     }
 
-    public Sitener(Integer id, String name, Date birthday, String team) {
+    public Sitener(Integer id, String name, Date birthday, String classID) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
-        this.team = team;
+        this.classID = classID;
     }
 
     public Integer getId() {
@@ -100,12 +109,32 @@ public class Sitener implements Serializable {
         this.birthday = birthday;
     }
 
-    public String getTeam() {
-        return team;
+    public String getClassID() {
+        return classID;
     }
 
-    public void setTeam(String team) {
-        this.team = team;
+    public void setClassID(String classID) {
+        this.classID = classID;
+    }
+    public String getEmail(){
+        return email;
+    }
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public String getAddress(){
+        return address;
+    }
+    public void setAddress(String address){
+        this.address = address;
+    }
+    public Integer getPhone_no(){
+        return phone_no;
+    }
+
+    public void setPhone_no(Integer phone_no) {
+        this.phone_no = phone_no;
     }
 
     public String getAvatar() {

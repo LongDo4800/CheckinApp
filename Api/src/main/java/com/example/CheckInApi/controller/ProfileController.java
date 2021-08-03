@@ -70,7 +70,7 @@ public class ProfileController {
             if (sitener == null) {
                 throw new ObjectNotFoundException("Chưa có thông tin người dùng");
             }
-            Sitener sitenerRs = new Sitener(sitener.getId(),sitener.getName(),sitener.getBirthday(),sitener.getTeam(),sitener.getAvatar());
+            Sitener sitenerRs = new Sitener(sitener.getId(),sitener.getName(),sitener.getBirthday(),sitener.getClassID(),sitener.getEmail(),sitener.getAddress(),sitener.getPhone_no(),sitener.getAvatar());
             Map<String, Object> map = parameters(sitenerRs);
             map.put("token", token);
             return map;
