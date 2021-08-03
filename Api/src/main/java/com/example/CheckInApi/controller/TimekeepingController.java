@@ -18,7 +18,7 @@ import java.util.UUID;
 
 import static com.example.CheckInApi.utils.RespondUtil.ok;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RestController
 public class TimekeepingController {
     @Autowired
@@ -45,12 +45,12 @@ public class TimekeepingController {
         }
     }
 
-//    @GetMapping(path="/getTimeK")
-//    public @ResponseBody
-//    List<Timekeeping> getAllCheckin() {
-//
-//        return timeKeepingRepository.findAll();
-//    }
+    @GetMapping(path="/getTimeK")
+    public @ResponseBody
+    List<Timekeeping> getAllCheckin() {
+
+        return timeKeepingRepository.findAll();
+    }
 
 //    @GetMapping(path = "/getTimeK/{id}")
 //    public Timekeeping getTimeK(@PathVariable int id) {

@@ -22,7 +22,7 @@ import java.util.*;
 
 import static com.example.CheckInApi.utils.RespondUtil.ok;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RestController // This means that this class is a Controller
 public class ProfileController {
     @Autowired // This means to get the bean called profileRepository
@@ -76,7 +76,7 @@ public class ProfileController {
             return map;
         }
         else {
-            throw new ObjectNotFoundException("error");
+            throw new ObjectNotFoundException("user not found");
         }
     }
 
