@@ -120,4 +120,11 @@ public class Checkin implements Serializable {
         return "db.Checkin[ id=" + id + " ]";
     }
 
+    public Checkin(Integer id,Date checkinTime, Timekeeping timekeeping){
+        this.setId(id);
+        this.setCheckinTime(checkinTime);
+        this.setTimekeeping(timekeeping);
+        this.setSitener(null);
+        this.getTimekeeping().setSecret(null);
+    }
 }
