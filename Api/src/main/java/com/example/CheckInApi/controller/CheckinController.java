@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -21,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.example.CheckInApi.utils.RespondUtil.ok;
 
@@ -56,22 +58,41 @@ public class CheckinController {
         newCheckin.setCheckinTime(Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant()));
         newCheckin.setSitener(sitener);
 
-        return newCheckin;
+        return repository.save(newCheckin);
 //            return repository.save(newCheckin);
     }
 
-    @GetMapping(path = "/getCheckinFrom")
-    public @ResponseBody
-    List<Checkin> getAllCheckinFrom() {
-
-        return repository.findAll();
-    }
-
-    @GetMapping(path = "/getCheckin")
-    public @ResponseBody
-    List<Checkin> getAllCheckin() {
-
-        return repository.findAll();
+    @GetMapping(path = "/listCheckins")
+    public List<Checkin> listCheckins(@RequestParam String from, @RequestParam String to, @RequestParam Integer sitenerID) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date fromDate = sdf.parse(from);
+            Date toDate = sdf.parse(to);
+            List<Timekeeping> timekeepings = timeKeepingRepository.findTimekeepingByDate(fromDate, toDate);
+            List<Integer> timekeepingIDs = timekeepings.stream().map(tkp -> tkp.getId()).collect(Collectors.toList());
+            List<Checkin> checkins = repository.getCheckinFromTo(timekeepingIDs,sitenerID);
+            System.out.println(checkins);
+            List<Checkin> res = timekeepings.stream().map(tkp -> {
+                List<Checkin> cks = checkins
+                        .stream()
+                        .filter(checkin -> checkin.getTimekeeping().getId().equals(tkp.getId()))
+                        .collect(Collectors.toList());
+                if(cks.stream().count() < 1) {
+                    Checkin ck = new Checkin();
+                    tkp.setSecret("");
+                    ck.setTimekeeping(tkp);
+                    return ck;
+                } else {
+                    Checkin ck = cks.get(0);
+                    ck.setSitener(null);
+                    ck.getTimekeeping().setSecret("");
+                    return ck;
+                }
+            }).collect(Collectors.toList());
+            return res;
+        } catch (Exception e) {
+            throw new ObjectNotFoundException(e.getMessage());
+        }
     }
 
     @GetMapping(path = "/getCheckin/{id}")

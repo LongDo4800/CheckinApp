@@ -3,22 +3,19 @@ package com.example.CheckInApi.controller;
 
 import com.example.CheckInApi.exception.ObjectNotFoundException;
 import com.example.CheckInApi.modal.Checkin;
-import com.example.CheckInApi.modal.CheckinResponse;
 import com.example.CheckInApi.modal.Sitener;
 import com.example.CheckInApi.modal.Timekeeping;
 import com.example.CheckInApi.repository.CheckinRepository;
 import com.example.CheckInApi.repository.ProfileRepository;
 import com.example.CheckInApi.repository.SitenerRepository;
 import com.example.CheckInApi.repository.TimeKeepingRepository;
+import org.hibernate.annotations.Check;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.example.CheckInApi.utils.RespondUtil.ok;
 
@@ -44,7 +41,17 @@ public class SitenerController {
     public @ResponseBody
     List<Sitener> getAllSitener() {
         // This returns a JSON or XML with the users
-        return sitenerRepository.findAll();
+        List<Sitener> siteners = sitenerRepository.findAll();
+        List<Sitener> res = siteners.stream().map(sitener -> {
+            Sitener newSitener = new Sitener();
+            newSitener.setName(sitener.getName());
+            newSitener.setClassID(sitener.getClassID());
+            newSitener.setId(sitener.getId());
+            newSitener.setBirthday(sitener.getBirthday());
+            newSitener.setAvatar(sitener.getAvatar());
+            return newSitener;
+        }).collect(Collectors.toList());
+        return res;
     }
 
     @GetMapping(path = "/getSitener/{id}")
@@ -75,7 +82,7 @@ public class SitenerController {
             sitener.setClassID(newSitener.getClassID());
             sitener.setEmail(newSitener.getEmail());
             sitener.setAddress(newSitener.getAddress());
-            sitener.setPhone_no(newSitener.getPhone_no());
+            sitener.setPhoneNo(newSitener.getPhoneNo());
             sitener.setAvatar(newSitener.getAvatar());
             
             return sitenerRepository.save(sitener);
@@ -83,28 +90,5 @@ public class SitenerController {
             return sitenerRepository.save(newSitener);
         });
 
-    }
-
-    @GetMapping(path = "/getSitenerFromDate/from={from}&to={to}&sitenerID={sitenerID}")
-    public CheckinResponse getSitenerFromDate(@PathVariable String from, @PathVariable String to, @PathVariable Integer sitenerID) throws ParseException {
-        CheckinResponse checkinRes = new CheckinResponse();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date fromDate = sdf.parse(from);
-        Date toDate = sdf.parse(to);
-       List<Integer> timekeepingIDs = timeKeepingRepository.findTimekeepingByDate(fromDate, toDate);
-       List<Checkin> checkins = checkinRepository.getCheckinFromTo(timekeepingIDs,sitenerID);
-        if(checkins!=null&&!(checkins.isEmpty())){
-            List<Checkin> filteredCheckin = new ArrayList<>();
-            for( int i =0; i< checkins.size(); i++){
-                Checkin item = new Checkin(checkins.get(i).getId(), checkins.get(i).getCheckinTime(),checkins.get(i).getTimekeeping());
-                filteredCheckin.add(item);
-            }
-            checkinRes.setCheckins(filteredCheckin);
-            checkinRes.setStatus(true);
-        }else{
-            checkinRes.setCheckins(null);
-            checkinRes.setStatus(false);
-        }
-    return checkinRes;
     }
 }

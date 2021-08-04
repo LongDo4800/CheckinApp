@@ -33,5 +33,5 @@ public interface CheckinRepository extends JpaRepository<Checkin, Integer> {
 
 
     @Query("select a from Checkin a Where a.timekeeping.id  in ?1 and a.sitener.id=?2")
-    List<Checkin> getCheckinFromTo(List<Integer> SitenerIds, Integer sitenerId);
+    List<Checkin> getCheckinFromTo(List<Integer> ids, Integer sitenerId);
 }

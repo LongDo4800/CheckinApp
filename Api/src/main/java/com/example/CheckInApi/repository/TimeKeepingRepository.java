@@ -15,8 +15,8 @@ public interface TimeKeepingRepository extends JpaRepository<Timekeeping, Intege
     @Query("select a from Timekeeping a where a.secret=?1")
     Timekeeping findByTimeKeepingFromSecret(String secret);
 
-    @Query("select a.id from Timekeeping a where a.checkinDate between :fromDate AND :toDate")
-    List<Integer> findTimekeepingByDate(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
+    @Query("select a from Timekeeping a where a.checkinDate between :fromDate AND :toDate")
+    List<Timekeeping> findTimekeepingByDate(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
 
 
 }

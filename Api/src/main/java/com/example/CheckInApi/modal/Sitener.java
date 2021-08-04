@@ -48,8 +48,8 @@ public class Sitener implements Serializable {
     private String email;
     @Column(name = "address")
     private String address;
-    @Column(name = "phone_no")
-    private Integer phone_no;
+    @Column(name = "phoneNo")
+    private String phoneNo;
     @Column(name = "avatar")
     private String avatar;
 
@@ -62,14 +62,14 @@ public class Sitener implements Serializable {
     public Sitener() {
     }
 
-    public Sitener(Integer id, String name, Date birthday, String classID,String email,String address,Integer phone_no, String avatar){
+    public Sitener(Integer id, String name, Date birthday, String classID,String email,String address,String phoneNo, String avatar){
         this.id = id;
         this.name = name;
         this.birthday = birthday;
         this.classID = classID;
         this.email = email;
         this.address = address;
-        this.phone_no = phone_no;
+        this.phoneNo = phoneNo;
         this.avatar = avatar;
         this.profile=null;
     }
@@ -129,12 +129,12 @@ public class Sitener implements Serializable {
     public void setAddress(String address){
         this.address = address;
     }
-    public Integer getPhone_no(){
-        return phone_no;
+    public String getPhoneNo(){
+        return phoneNo;
     }
 
-    public void setPhone_no(Integer phone_no) {
-        this.phone_no = phone_no;
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
     }
 
     public String getAvatar() {
